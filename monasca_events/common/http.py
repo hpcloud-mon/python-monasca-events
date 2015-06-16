@@ -58,8 +58,7 @@ class HTTPClient(object):
         if endpoint.endswith('/'):
             endpoint = endpoint[:-1]
         self.endpoint = endpoint
-        self.auth_url = '192.168.10.4:8082'
-        # self.auth_url = kwargs.get('auth_url')
+        self.auth_url = kwargs.get('auth_url')
         self.auth_token = kwargs.get('token')
         self.username = kwargs.get('username')
         self.password = kwargs.get('password')

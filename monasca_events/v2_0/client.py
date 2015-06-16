@@ -39,12 +39,6 @@ class Client(object):
             kwargs['auth_url'] = string.replace(
                 kwargs['auth_url'], 'v2.0', 'v3')
         self.http_client = http.HTTPClient(*args, **kwargs)
-        self.metrics = metrics.MetricsManager(self.http_client)
-        self.notifications = notifications.NotificationsManager(
-            self.http_client)
-        self.alarms = alarms.AlarmsManager(self.http_client)
-        self.alarm_definitions = alarm_definitions.AlarmDefinitionsManager(
-            self.http_client)
         self.events = events.EventsManager(self.http_client)
         self.transforms = events.TransformsManager(self.http_client)
         self.stream_definitions = events.StreamDefinitionsManager(
