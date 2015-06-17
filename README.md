@@ -5,17 +5,13 @@ This is a client library for Monasca built to interface with the Monasca Events 
 provides a Python API (the ``monasca-events`` module) and a command-line tool
 (``monasca-events``).
 
-The Monasca Client was written using the OpenStack Heat Python client as a framework.
+The Monasca Events Client was written using the OpenStack Heat Python client as a framework.
 
-.. contents:: Contents:
-   :local:
 
 Ubuntu Install
 --------------
-Requires:
-  - pip - version >= 1.4.  python get-pip.py
 
-Alternative Manual Install Steps:
+Manual Install Steps:
   - cd to your python-monasca-events repo
   - sudo pip install -r requirements.txt
   - python setup.py install
@@ -23,7 +19,7 @@ Alternative Manual Install Steps:
 Command-line API
 ----------------
 Installing this distribution gets you a shell command, ``monasca-events``, that you
-can use to interact with the Monitoring API server.
+can use to interact with the Events API server.
 
 Usage:
   monasca-events
@@ -38,34 +34,37 @@ Usage:
 
 
 Environmental Variables
-~~~~~~~~~~~~~~~~~~~~~~~
+----------------
 
 Environmental variables can be sourced, or optionally passed in as CLI arguments.
 It is easiest to source them first and then use the CLI.
 
 When token and endpoint are known::
 
-  export OS_AUTH_TOKEN=XXX
+  ``export OS_AUTH_TOKEN=XXX``
 
 When using Keystone to obtain the token and endpoint::
-
+  ```
   export OS_USERNAME=
   export OS_PASSWORD=
   export OS_PROJECT_NAME=
   export OS_AUTH_URL=
   export OS_REGION_NAME=
+  ```
 
 When using Vagrant Environment with middleware disabled::
-
+  ```
   export OS_AUTH_TOKEN=82510970543135
   export OS_NO_CLIENT_AUTH=1
-
+  ```
 The Monasca Events API will treat the auth token as the tenant ID when Keystone is not enabled.
 
 You'll find complete documentation on the shell by running
 ``monasca-events help``::
 
-  usage: monasca [-j] [--version] [-d] [-v] [-k] [--cert-file CERT_FILE]
+
+  ```
+  usage: monasca-events [-j] [--version] [-d] [-v] [-k] [--cert-file CERT_FILE]
                [--key-file KEY_FILE] [--os-cacert OS_CACERT]
                [--timeout TIMEOUT] [--os-username OS_USERNAME]
                [--os-password OS_PASSWORD] [--os-project-id OS_PROJECT_ID]
@@ -78,9 +77,10 @@ You'll find complete documentation on the shell by running
                [--os-service-type OS_SERVICE_TYPE]
                [--os-endpoint-type OS_ENDPOINT_TYPE]
                <subcommand> ...
+  ```
 
   Command-line interface to the monasca-events API.
-
+  ```
   positional arguments:
     <subcommand>
       help                     Display help about this program or one of its
@@ -132,8 +132,7 @@ You'll find complete documentation on the shell by running
                                Defaults to env[OS_SERVICE_TYPE].
     --os-endpoint-type OS_ENDPOINT_TYPE
                                Defaults to env[OS_ENDPOINT_TYPE].
-
-  See "mon help COMMAND" for help on a specific command.
+  ```
 
 
 
