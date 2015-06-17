@@ -14,12 +14,8 @@
 # limitations under the License.
 import string
 
-from monascaclient.common import http
-from monascaclient.v2_0 import alarm_definitions
-from monascaclient.v2_0 import alarms
-from monascaclient.v2_0 import metrics
-from monascaclient.v2_0 import notifications
-from monascaclient.v2_0 import events
+from monasca_events.common import http
+from monasca_events.v2_0 import events
 
 
 class Client(object):

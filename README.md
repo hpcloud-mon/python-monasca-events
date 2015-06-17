@@ -16,13 +16,13 @@ Requires:
   - pip - version >= 1.4.  python get-pip.py
 
 Alternative Manual Install Steps:
-  - cd to your python-monasc-events repo
+  - cd to your python-monasca-events repo
   - sudo pip install -r requirements.txt
   - python setup.py install
 
 Command-line API
 ----------------
-Installing this distribution gets you a shell command, ``monasca``, that you
+Installing this distribution gets you a shell command, ``monasca-events``, that you
 can use to interact with the Monitoring API server.
 
 Usage:
@@ -79,7 +79,7 @@ You'll find complete documentation on the shell by running
                [--os-endpoint-type OS_ENDPOINT_TYPE]
                <subcommand> ...
 
-  Command-line interface to the monasca-client API.
+  Command-line interface to the monasca-events API.
 
   positional arguments:
     <subcommand>

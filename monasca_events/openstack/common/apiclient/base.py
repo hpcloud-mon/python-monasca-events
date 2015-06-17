@@ -2,6 +2,7 @@
 # Copyright 2011 OpenStack Foundation
 # Copyright 2012 Grid Dynamics
 # Copyright 2013 OpenStack Foundation
+# Copyright (c) 2015 Hewlett-Packard Development Company, L.P.
 # All Rights Reserved.
 #
 #    Licensed under the Apache License, Version 2.0 (the "License"); you may
@@ -28,9 +29,9 @@ import copy
 
 import six
 
-from monascaclient.openstack.common.apiclient import exceptions
-from monascaclient.openstack.common.py3kcompat import urlutils
-from monascaclient.openstack.common import strutils
+from monasca_events.openstack.common.apiclient import exceptions
+from monasca_events.openstack.common.py3kcompat import urlutils
+from monasca_events.openstack.common import strutils
 
 
 def getid(obj):

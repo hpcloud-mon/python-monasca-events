@@ -25,9 +25,3 @@ class MonascaManager(base.BaseManager):
         headers = self.client.credentials_headers()
         return headers
 
-    def get_dimensions_url_string(self, dimdict):
-        dim_list = list()
-        for k, v in dimdict.items():
-            dim_str = k + ':' + v
-            dim_list.append(dim_str)
-        return ','.join(dim_list)

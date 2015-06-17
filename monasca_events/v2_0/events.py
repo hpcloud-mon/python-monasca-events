@@ -13,9 +13,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from monascaclient.common import monasca_manager
-from monascaclient.openstack.common.apiclient import base
-from monascaclient.openstack.common.py3kcompat import urlutils
+from monasca_events.common import monasca_manager
+from monasca_events.openstack.common.apiclient import base
+
+
+
 
 class Events(base.Resource):
 
@@ -72,11 +74,14 @@ class TransformsManager(monasca_manager.MonascaManager):
 
     def create(self, **kwargs):
         """Create a transform"""
-        url_str = self.base_url + "/%s" % kwargs['transform']
+        url_str = self.base_url
         newheaders = self.get_headers()
-        resp, body = self.client.json_request('POST', url_str,
+        payload = kwargs['transform']
+        resp, body = self.client.json_request('POST',
+                                              url_str,
+                                              data=payload,
                                               headers=newheaders)
-        return body
+        return resp
 
     def delete(self, **kwargs):
         """Delete a specific transform"""
@@ -84,7 +89,7 @@ class TransformsManager(monasca_manager.MonascaManager):
         newheaders = self.get_headers()
         resp, body = self.client.json_request('DELETE', url_str,
                                               headers=newheaders)
-        return body
+        return resp
 
 
 class StreamDefinitions(base.Resource):
@@ -115,11 +120,13 @@ class StreamDefinitionsManager(monasca_manager.MonascaManager):
 
     def create(self, **kwargs):
         """Create a stream definition"""
-        url_str = self.base_url + "/%s" % kwargs['definition']
+        url_str = self.base_url
         newheaders = self.get_headers()
+        payload = kwargs['definition']
         resp, body = self.client.json_request('POST', url_str,
+                                              data=payload,
                                               headers=newheaders)
-        return body
+        return resp
 
     def delete(self, **kwargs):
         """Delete a specific transform"""
@@ -127,4 +134,4 @@ class StreamDefinitionsManager(monasca_manager.MonascaManager):
         newheaders = self.get_headers()
         resp, body = self.client.json_request('DELETE', url_str,
                                               headers=newheaders)
-        return body
+        return resp

@@ -133,7 +133,7 @@ def env(*vars, **kwargs):
 
 
 def import_versioned_module(version, submodule=None):
-    module = 'monascaclient.v%s' % version
+    module = 'monasca_events.v%s' % version
     if submodule:
         module = '.'.join((module, submodule))
     return importutils.import_module(module)

@@ -1,4 +1,4 @@
-# Copyright (c) 2014 Hewlett-Packard Development Company, L.P.
+# Copyright (c) 2015 Hewlett-Packard Development Company, L.P.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ from monasca_events.common import utils
 from monasca_events import exc
 from monasca_events import ksclient
 
-EVENTS_API_URL = '192.168.10.4:8082/v2.0/'
+EVENTS_API_URL = 'http://192.168.10.4:8082/v2.0/'
 
 
 logger = logging.getLogger(__name__)
@@ -176,8 +176,9 @@ class MonascaShell(object):
                                  "Defaults to env[OS_NO_CLIENT_AUTH].")
 
         parser.add_argument('--monasca-api-url',
-                            default=EVENTS_API_URL'),
-                            help='Defaults to EVENTS_API_URL in shell.py')
+                            default=EVENTS_API_URL,
+                            help='Defaults to EVENTS_API_URL '
+                                 'in events_shell.py')
 
         parser.add_argument('--monasca_api_url',
                             help=argparse.SUPPRESS)
@@ -212,7 +213,7 @@ class MonascaShell(object):
 
         self.subcommands = {}
         subparsers = parser.add_subparsers(metavar='<subcommand>')
-        submodule = utils.import_versioned_module(version, 'shell')
+        submodule = utils.import_versioned_module(version, 'events_shell')
         self._find_actions(subparsers, submodule)
         self._find_actions(subparsers, self)
         self._add_bash_completion_subparser(subparsers)

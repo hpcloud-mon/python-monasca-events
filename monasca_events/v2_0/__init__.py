@@ -15,4 +15,4 @@
 
 __all__ = ['Client']
 
-from monascaclient.v2_0.client import Client
+from monasca_events.v2_0.client import Client
