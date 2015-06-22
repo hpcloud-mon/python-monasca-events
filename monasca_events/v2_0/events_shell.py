@@ -13,9 +13,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import yaml
 
 from monasca_events.common import utils
 import monasca_events.exc as exc
+
 
 
 @utils.arg('id', metavar='<EVENT_ID>',
@@ -25,11 +27,18 @@ def do_event_get(mc, args):
     fields = {'event_id': args.id}
     try:
         event = mc.events.get(**fields)
-        print(event)
     except exc.HTTPException as he:
         raise  exc.CommandError(
             'HTTPException code=%s message=%s' %
             (he.code, he.message))
+    if args.json:
+        print(utils.json_formatter(event))
+        return
+    cols = ['name']
+    formatters = {
+        'name': lambda x: x['name']
+    }
+    utils.print_list(event, cols, formatters=formatters)
 
 
 def do_event_list(mc, args):
@@ -42,6 +51,14 @@ def do_event_list(mc, args):
         raise exc.CommandError(
             'HTTPException code=%s message=%s' %
             (he.code, he.message))
+    if args.json:
+        print(utils.json_formatter(events))
+        return
+    cols = ['name']
+    formatters = {
+        'name': lambda x: x['name']
+    }
+    utils.print_list(events, cols, formatters=formatters)
 
 
 @utils.arg('id', metavar='<TRANSFORM_ID>',
@@ -51,11 +68,26 @@ def do_transform_get(mc, args):
     fields = {'transform_id': args.id}
     try:
         transform = mc.transforms.get(**fields)
-        print(transform)
     except exc.HTTPException as he:
         raise  exc.CommandError(
             'HTTPException code=%s message=%s' %
             (he.code, he.message))
+    if args.json:
+        print(utils.json_formatter(transform))
+        return
+    cols = ['id', 'tenant_id', 'name', 'description']
+    # add the dictionary to a list, so print_list works
+    transform_list = list()
+    transform_list.append(transform)
+    formatters = {
+        'id': lambda x: x['id'],
+        'tenant_id': lambda x: x['tenant_id'],
+        'name': lambda x: x['name'],
+        'description': lambda x: x['description'],
+    }
+    utils.print_list(transform, cols, formatters=formatters)
+    specification = yaml.load(transform[0]['specification'])
+    print yaml.dump(specification)
 
 
 def do_transform_list(mc, args):
@@ -63,11 +95,21 @@ def do_transform_list(mc, args):
     fields = {}
     try:
         transforms = mc.transforms.list(**fields)
-        # print(transforms)
     except exc.HTTPException as he:
         raise exc.CommandError(
             'HTTPException code=%s message=%s' %
             (he.code, he.message))
+    if args.json:
+        print(utils.json_formatter(transforms))
+        return
+    cols = ['id', 'tenant_id', 'name', 'description']
+    formatters = {
+        'id': lambda x: x['id'],
+        'tenant_id': lambda x: x['tenant_id'],
+        'name': lambda x: x['name'],
+        'description': lambda x: x['description'],
+    }
+    utils.print_list(transforms, cols, formatters=formatters)
 
 
 @utils.arg('transform',
@@ -107,12 +149,28 @@ def do_stream_definition_get(mc, args):
     fields = {'definition_id': args.id}
     try:
         definition = mc.stream_definitions.get(**fields)
-        print(definition)
     except exc.HTTPException as he:
         raise  exc.CommandError(
             'HTTPException code=%s message=%s' %
             (he.code, he.message))
-    return definition
+    if args.json:
+        print(utils.json_formatter(definition))
+        return
+    cols = ['id', 'tenant_id', 'name', 'description', 'select', 'group by',
+            'fire criteria', 'expiration', 'fire actions', 'expire actions']
+    formatters = {
+        'id': lambda x: x['id'],
+        'tenant_id': lambda x: x['tenant_id'],
+        'name': lambda x: x['name'],
+        'description': lambda x: x['description'],
+        'select': lambda x: utils.format_dict(x['select']),
+        'group_by': lambda x: x['group_by'],
+        'fire_criteria': lambda x: utils.format_dict(x['fire_criteria']),
+        'expiration': lambda x: x['expiration'],
+        'fire_actions': lambda x: x['fire_actions'],
+        'expire_actions': lambda x: x['expire_actions']
+    }
+    utils.print_list(definition, cols, formatters=formatters)
 
 
 def do_stream_definition_list(mc, args):
@@ -120,12 +178,28 @@ def do_stream_definition_list(mc, args):
     fields = {}
     try:
         definitions = mc.stream_definitions.list(**fields)
-        print(definitions)
     except exc.HTTPException as he:
         raise  exc.CommandError(
             'HTTPException code=%s message=%s' %
             (he.code, he.message))
-    return definitions
+    if args.json:
+        print(utils.json_formatter(definitions))
+        return
+    cols = ['id', 'tenant_id', 'name', 'description', 'select', 'group by',
+            'fire criteria', 'expiration', 'fire actions', 'expire actions']
+    formatters = {
+        'id': lambda x: x['id'],
+        'tenant_id': lambda x: x['tenant_id'],
+        'name': lambda x: x['name'],
+        'description': lambda x: x['description'],
+        'select': lambda x: utils.format_dict(x['select']),
+        'group_by': lambda x: x['group_by'],
+        'fire_criteria': lambda x: utils.format_dict(x['fire_criteria']),
+        'expiration': lambda x: x['expiration'],
+        'fire_actions': lambda x: x['fire_actions'],
+        'expire_actions': lambda x: x['expire_actions']
+    }
+    utils.print_list(definitions, cols, formatters=formatters)
 
 
 @utils.arg('definition',
