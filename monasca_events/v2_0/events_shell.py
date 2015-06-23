@@ -50,7 +50,7 @@ def do_event_list(mc, args):
     """Show list of events"""
     fields = {}
     if args.limit:
-        fields = {'limit': args.limit}
+        fields['limit'] = args.limit
     try:
         events = mc.events.list(**fields)
     except exc.HTTPException as he:
@@ -105,7 +105,7 @@ def do_transform_list(mc, args):
     """Show list of transforms"""
     fields = {}
     if args.limit:
-        fields = {'limit': args.limit}
+        fields['limit'] = args.limit
     try:
         transforms = mc.transforms.list(**fields)
     except exc.HTTPException as he:
@@ -191,7 +191,7 @@ def do_stream_definition_list(mc, args):
     """Show list of stream definitions"""
     fields = {}
     if args.limit:
-        fields = {'limit': args.limit}
+        fields['limit'] = args.limit
     try:
         definitions = mc.stream_definitions.list(**fields)
     except exc.HTTPException as he:
