@@ -41,16 +41,20 @@ def do_event_get(mc, args):
         'generated': lambda x: x['generated'],
         'data': lambda x: utils.format_dict(x['data'])
     }
-    utils.print_list(event, cols, formatters=formatters)
+    utils.print_list(event['elements'], cols, formatters=formatters)
 
 
 @utils.arg('--limit', metavar='<RETURN LIMIT>',
            help='The amount of data to be returned up to the maximum limit.')
+@utils.arg('--offset', metavar='<OFFSET BY ID>',
+           help='Offset returned data by ID')
 def do_event_list(mc, args):
     """Show list of events"""
     fields = {}
     if args.limit:
         fields['limit'] = args.limit
+    if args.offset:
+        fields['offset'] = args.offset
     try:
         events = mc.events.list(**fields)
     except exc.HTTPException as he:
@@ -67,7 +71,7 @@ def do_event_list(mc, args):
         'generated': lambda x: x['generated'],
         'data': lambda x: utils.format_dict(x['data'])
     }
-    utils.print_list(events, cols, formatters=formatters)
+    utils.print_list(events['elements'], cols, formatters=formatters)
 
 
 @utils.arg('id', metavar='<TRANSFORM_ID>',
@@ -94,18 +98,22 @@ def do_transform_get(mc, args):
         'name': lambda x: x['name'],
         'description': lambda x: x['description'],
     }
-    utils.print_list(transform, cols, formatters=formatters)
+    utils.print_list(transform['elements'], cols, formatters=formatters)
     specification = yaml.load(transform[0]['specification'])
     print yaml.dump(specification)
 
 
 @utils.arg('--limit', metavar='<RETURN LIMIT>',
            help='The amount of data to be returned up to the maximum limit.')
+@utils.arg('--offset', metavar='<OFFSET BY ID>',
+           help='Offset returned data by ID')
 def do_transform_list(mc, args):
     """Show list of transforms"""
     fields = {}
     if args.limit:
         fields['limit'] = args.limit
+    if args.offset:
+        fields['offset'] = args.offset
     try:
         transforms = mc.transforms.list(**fields)
     except exc.HTTPException as he:
@@ -122,7 +130,7 @@ def do_transform_list(mc, args):
         'name': lambda x: x['name'],
         'description': lambda x: x['description'],
     }
-    utils.print_list(transforms, cols, formatters=formatters)
+    utils.print_list(transforms['elements'], cols, formatters=formatters)
 
 
 @utils.arg('transform',
@@ -182,16 +190,20 @@ def do_stream_definition_get(mc, args):
         'fire_actions': lambda x: x['fire_actions'],
         'expire_actions': lambda x: x['expire_actions'],
     }
-    utils.print_list(definition, cols, formatters=formatters)
+    utils.print_list(definition['elements'], cols, formatters=formatters)
 
 
 @utils.arg('--limit', metavar='<RETURN LIMIT>',
            help='The amount of data to be returned up to the maximum limit.')
+@utils.arg('--offset', metavar='<OFFSET BY ID>',
+           help='Offset returned data by ID')
 def do_stream_definition_list(mc, args):
     """Show list of stream definitions"""
     fields = {}
     if args.limit:
         fields['limit'] = args.limit
+    if args.offset:
+        fields['offset'] = args.offset
     try:
         definitions = mc.stream_definitions.list(**fields)
     except exc.HTTPException as he:
@@ -214,7 +226,7 @@ def do_stream_definition_list(mc, args):
         'fire_actions': lambda x: x['fire_actions'],
         'expire_actions': lambda x: x['expire_actions'],
     }
-    utils.print_list(definitions, cols, formatters=formatters)
+    utils.print_list(definitions['elements'], cols, formatters=formatters)
 
 
 @utils.arg('definition',
