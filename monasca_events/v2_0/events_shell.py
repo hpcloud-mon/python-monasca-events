@@ -34,19 +34,25 @@ def do_event_get(mc, args):
     if args.json:
         print(utils.json_formatter(event))
         return
-    cols = ['name']
+    cols = ['id', 'description', 'generated', 'data']
     formatters = {
-        'name': lambda x: x['name']
+        'id': lambda x: x['id'],
+        'description': lambda x: x['description'],
+        'generated': lambda x: x['generated'],
+        'data': lambda x: utils.format_dict(x['data'])
     }
     utils.print_list(event, cols, formatters=formatters)
 
 
+@utils.arg('--limit', metavar='<RETURN LIMIT>',
+           help='The amount of data to be returned up to the maximum limit.')
 def do_event_list(mc, args):
     """Show list of events"""
     fields = {}
+    if args.limit:
+        fields = {'limit': args.limit}
     try:
         events = mc.events.list(**fields)
-        print(events)
     except exc.HTTPException as he:
         raise exc.CommandError(
             'HTTPException code=%s message=%s' %
@@ -54,9 +60,12 @@ def do_event_list(mc, args):
     if args.json:
         print(utils.json_formatter(events))
         return
-    cols = ['name']
+    cols = ['id', 'description', 'generated', 'data']
     formatters = {
-        'name': lambda x: x['name']
+        'id': lambda x: x['id'],
+        'description': lambda x: x['description'],
+        'generated': lambda x: x['generated'],
+        'data': lambda x: utils.format_dict(x['data'])
     }
     utils.print_list(events, cols, formatters=formatters)
 
@@ -90,9 +99,13 @@ def do_transform_get(mc, args):
     print yaml.dump(specification)
 
 
+@utils.arg('--limit', metavar='<RETURN LIMIT>',
+           help='The amount of data to be returned up to the maximum limit.')
 def do_transform_list(mc, args):
     """Show list of transforms"""
     fields = {}
+    if args.limit:
+        fields = {'limit': args.limit}
     try:
         transforms = mc.transforms.list(**fields)
     except exc.HTTPException as he:
@@ -156,48 +169,50 @@ def do_stream_definition_get(mc, args):
     if args.json:
         print(utils.json_formatter(definition))
         return
-    cols = ['id', 'tenant_id', 'name', 'description', 'select', 'group by',
-            'fire criteria', 'expiration', 'fire actions', 'expire actions']
+    cols = ['id', 'name', 'description', 'select', 'group_by',
+            'fire_criteria', 'expiration', 'fire_actions', 'expire_actions']
     formatters = {
         'id': lambda x: x['id'],
-        'tenant_id': lambda x: x['tenant_id'],
         'name': lambda x: x['name'],
         'description': lambda x: x['description'],
-        'select': lambda x: utils.format_dict(x['select']),
+        'select': lambda x: utils.format_dictlist(x['select']),
         'group_by': lambda x: x['group_by'],
-        'fire_criteria': lambda x: utils.format_dict(x['fire_criteria']),
+        'fire_criteria': lambda x: utils.format_dictlist(x['fire_criteria']),
         'expiration': lambda x: x['expiration'],
         'fire_actions': lambda x: x['fire_actions'],
-        'expire_actions': lambda x: x['expire_actions']
+        'expire_actions': lambda x: x['expire_actions'],
     }
     utils.print_list(definition, cols, formatters=formatters)
 
 
+@utils.arg('--limit', metavar='<RETURN LIMIT>',
+           help='The amount of data to be returned up to the maximum limit.')
 def do_stream_definition_list(mc, args):
     """Show list of stream definitions"""
     fields = {}
+    if args.limit:
+        fields = {'limit': args.limit}
     try:
         definitions = mc.stream_definitions.list(**fields)
     except exc.HTTPException as he:
-        raise  exc.CommandError(
+        raise exc.CommandError(
             'HTTPException code=%s message=%s' %
             (he.code, he.message))
     if args.json:
         print(utils.json_formatter(definitions))
         return
-    cols = ['id', 'tenant_id', 'name', 'description', 'select', 'group by',
-            'fire criteria', 'expiration', 'fire actions', 'expire actions']
+    cols = ['id', 'name', 'description', 'select', 'group_by',
+            'fire_criteria', 'expiration', 'fire_actions', 'expire_actions']
     formatters = {
         'id': lambda x: x['id'],
-        'tenant_id': lambda x: x['tenant_id'],
         'name': lambda x: x['name'],
         'description': lambda x: x['description'],
-        'select': lambda x: utils.format_dict(x['select']),
+        'select': lambda x: utils.format_dictlist(x['select']),
         'group_by': lambda x: x['group_by'],
-        'fire_criteria': lambda x: utils.format_dict(x['fire_criteria']),
+        'fire_criteria': lambda x: utils.format_dictlist(x['fire_criteria']),
         'expiration': lambda x: x['expiration'],
         'fire_actions': lambda x: x['fire_actions'],
-        'expire_actions': lambda x: x['expire_actions']
+        'expire_actions': lambda x: x['expire_actions'],
     }
     utils.print_list(definitions, cols, formatters=formatters)
 

@@ -15,6 +15,7 @@
 
 from monasca_events.common import monasca_manager
 from monasca_events.openstack.common.apiclient import base
+from monasca_events.openstack.common.py3kcompat import urlutils
 
 
 
@@ -39,7 +40,7 @@ class EventsManager(monasca_manager.MonascaManager):
 
     def list(self, **kwargs):
         """Get a list of events."""
-        url_str = self.base_url
+        url_str = self.base_url + '?%s' % urlutils.urlencode(kwargs, True)
         newheaders = self.get_headers()
         resp, body = self.client.json_request('GET', url_str,
                                               headers=newheaders)
@@ -66,7 +67,7 @@ class TransformsManager(monasca_manager.MonascaManager):
 
     def list(self, **kwargs):
         """Get a list of transforms"""
-        url_str = self.base_url
+        url_str = self.base_url + '?%s' % urlutils.urlencode(kwargs, True)
         newheaders = self.get_headers()
         resp, body = self.client.json_request('GET', url_str,
                                               headers=newheaders)
@@ -112,7 +113,7 @@ class StreamDefinitionsManager(monasca_manager.MonascaManager):
 
     def list(self, **kwargs):
         """Get a list of transforms"""
-        url_str = self.base_url
+        url_str = self.base_url + '?%s' % urlutils.urlencode(kwargs, True)
         newheaders = self.get_headers()
         resp, body = self.client.json_request('GET', url_str,
                                               headers=newheaders)
