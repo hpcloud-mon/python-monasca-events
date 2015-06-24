@@ -44,7 +44,7 @@ class EventsManager(monasca_manager.MonascaManager):
         newheaders = self.get_headers()
         resp, body = self.client.json_request('GET', url_str,
                                               headers=newheaders)
-        return body
+        return body['elements']
 
 
 class Transforms(base.Resource):
@@ -71,7 +71,7 @@ class TransformsManager(monasca_manager.MonascaManager):
         newheaders = self.get_headers()
         resp, body = self.client.json_request('GET', url_str,
                                               headers=newheaders)
-        return body
+        return body['elements']
 
     def create(self, **kwargs):
         """Create a transform"""
@@ -117,7 +117,7 @@ class StreamDefinitionsManager(monasca_manager.MonascaManager):
         newheaders = self.get_headers()
         resp, body = self.client.json_request('GET', url_str,
                                               headers=newheaders)
-        return body
+        return body['elements']
 
     def create(self, **kwargs):
         """Create a stream definition"""
