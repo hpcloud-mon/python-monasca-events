@@ -30,8 +30,6 @@ from monasca_events.common import utils
 from monasca_events import exc
 from monasca_events import ksclient
 
-EVENTS_API_URL = 'http://192.168.10.4:8082/v2.0/'
-
 
 logger = logging.getLogger(__name__)
 
@@ -176,9 +174,8 @@ class MonascaShell(object):
                                  "Defaults to env[OS_NO_CLIENT_AUTH].")
 
         parser.add_argument('--monasca-api-url',
-                            default=EVENTS_API_URL,
-                            help='Defaults to EVENTS_API_URL '
-                                 'in events_shell.py')
+                            default=utils.env('EVENTS_API_URL'),
+                            help='Defaults to env[EVENTS_API_URL]')
 
         parser.add_argument('--monasca_api_url',
                             help=argparse.SUPPRESS)
