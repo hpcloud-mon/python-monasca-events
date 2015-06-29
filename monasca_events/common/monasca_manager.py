@@ -24,4 +24,3 @@ class MonascaManager(base.BaseManager):
     def get_headers(self):
         headers = self.client.credentials_headers()
         return headers
-

@@ -19,16 +19,15 @@ from monasca_events.common import utils
 import monasca_events.exc as exc
 
 
-
 @utils.arg('id', metavar='<EVENT_ID>',
            help='The ID of the event.')
 def do_event_get(mc, args):
-    """Get specific event"""
+    """Get specific event."""
     fields = {'event_id': args.id}
     try:
         event = mc.events.get(**fields)
     except exc.HTTPException as he:
-        raise  exc.CommandError(
+        raise exc.CommandError(
             'HTTPException code=%s message=%s' %
             (he.code, he.message))
     if args.json:
@@ -49,7 +48,7 @@ def do_event_get(mc, args):
 @utils.arg('--offset', metavar='<OFFSET BY ID>',
            help='Offset returned data by ID')
 def do_event_list(mc, args):
-    """Show list of events"""
+    """Show list of events."""
     fields = {}
     if args.limit:
         fields['limit'] = args.limit
@@ -77,12 +76,12 @@ def do_event_list(mc, args):
 @utils.arg('id', metavar='<TRANSFORM_ID>',
            help='The ID of the transform.')
 def do_transform_get(mc, args):
-    """Get specific transform"""
+    """Get specific transform."""
     fields = {'transform_id': args.id}
     try:
         transform = mc.transforms.get(**fields)
     except exc.HTTPException as he:
-        raise  exc.CommandError(
+        raise exc.CommandError(
             'HTTPException code=%s message=%s' %
             (he.code, he.message))
     if args.json:
@@ -100,7 +99,7 @@ def do_transform_get(mc, args):
     transform_list.append(transform)
     utils.print_list(transform_list, cols, formatters=formatters)
     specification = yaml.load(transform['specification'])
-    print yaml.dump(specification)
+    print (yaml.dump(specification))
 
 
 @utils.arg('--limit', metavar='<RETURN LIMIT>',
@@ -108,7 +107,7 @@ def do_transform_get(mc, args):
 @utils.arg('--offset', metavar='<OFFSET BY ID>',
            help='Offset returned data by ID')
 def do_transform_list(mc, args):
-    """Show list of transforms"""
+    """Show list of transforms."""
     fields = {}
     if args.limit:
         fields['limit'] = args.limit
@@ -138,11 +137,10 @@ def do_transform_list(mc, args):
            help='The transform dict.',
            action='append')
 def do_transform_create(mc, args):
-    """Create a transform"""
+    """Create a transform."""
     fields = {'transform': utils.format_parameters(args.transform)}
     try:
         resp = mc.transforms.create(**fields)
-        print(resp.status_code)
     except exc.HTTPException as he:
         raise exc.CommandError(
             'HTTPException code=%s message=%s' %
@@ -152,11 +150,10 @@ def do_transform_create(mc, args):
 @utils.arg('id', metavar='<TRANSFORM_ID>',
            help='The ID of the transform.')
 def do_transform_delete(mc, args):
-    """Delete a transform"""
+    """Delete a transform."""
     fields = {'transform_id': args.id}
     try:
         resp = mc.transforms.delete(**fields)
-        print(resp.status_code)
     except exc.HTTPException as he:
         raise exc.CommandError(
             'HTTPException code=%s message=%s' %
@@ -166,12 +163,12 @@ def do_transform_delete(mc, args):
 @utils.arg('id', metavar='<STREAM_DEFINITION_ID>',
            help='The ID of the stream definition.')
 def do_stream_definition_get(mc, args):
-    """Get specific stream definition"""
+    """Get specific stream definition."""
     fields = {'definition_id': args.id}
     try:
         definition = mc.stream_definitions.get(**fields)
     except exc.HTTPException as he:
-        raise  exc.CommandError(
+        raise exc.CommandError(
             'HTTPException code=%s message=%s' %
             (he.code, he.message))
     if args.json:
@@ -201,7 +198,7 @@ def do_stream_definition_get(mc, args):
 @utils.arg('--offset', metavar='<OFFSET BY ID>',
            help='Offset returned data by ID')
 def do_stream_definition_list(mc, args):
-    """Show list of stream definitions"""
+    """Show list of stream definitions."""
     fields = {}
     if args.limit:
         fields['limit'] = args.limit
@@ -236,13 +233,12 @@ def do_stream_definition_list(mc, args):
            metavar='<fire_criteria=VALUE1,description=VALUE2,name=VALUE3...',
            help='The stream definition dict.')
 def do_stream_definition_create(mc, args):
-    """Create a stream definition"""
+    """Create a stream definition."""
     fields = {'definition': utils.format_parameters(args.definition)}
     try:
         resp = mc.stream_definitions.get(**fields)
-        print(resp.status_code)
     except exc.HTTPException as he:
-        raise  exc.CommandError(
+        raise exc.CommandError(
             'HTTPException code=%s message=%s' %
             (he.code, he.message))
 
@@ -250,11 +246,10 @@ def do_stream_definition_create(mc, args):
 @utils.arg('id', metavar='<STREAM_DEFINITION_ID>',
            help='The stream definition id.')
 def do_stream_definition_delete(mc, args):
-    """Delete a stream definition"""
+    """Delete a stream definition."""
     fields = {'definition_id': args.id}
     try:
         resp = mc.stream_definitions.get(**fields)
-        print(resp.status_code)
     except exc.HTTPException as he:
         raise  exc.CommandError(
             'HTTPException code=%s message=%s' %

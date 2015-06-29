@@ -72,7 +72,7 @@ You'll find complete documentation on the shell by running
                [--os-domain-id OS_DOMAIN_ID] [--os-domain-name OS_DOMAIN_NAME]
                [--os-auth-url OS_AUTH_URL] [--os-region-name OS_REGION_NAME]
                [--os-auth-token OS_AUTH_TOKEN] [--os-no-client-auth]
-               [--monasca-api-url MONASCA_API_URL]
+               [--monasca-events-url MONASCA_EVENTS_URL]
                [--monasca-api-version MONASCA_API_VERSION]
                [--os-service-type OS_SERVICE_TYPE]
                [--os-endpoint-type OS_ENDPOINT_TYPE]
@@ -124,8 +124,8 @@ You'll find complete documentation on the shell by running
                                Defaults to env[OS_AUTH_TOKEN].
     --os-no-client-auth        Do not contact keystone for a token. Defaults to
                                env[OS_NO_CLIENT_AUTH].
-    --monasca-api-url MONASCA_API_URL
-                               Defaults to env[MONASCA_API_URL].
+    --monasca-events-url MONASCA_EVENTS_URL
+                               Defaults to env[MONASCA_EVENTS_URL].
     --monasca-api-version MONASCA_API_VERSION
                                Defaults to env[MONASCA_API_VERSION] or 2_0
     --os-service-type OS_SERVICE_TYPE

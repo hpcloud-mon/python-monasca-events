@@ -16,10 +16,10 @@
 import copy
 import logging
 import os
+import six
 import socket
 
 import requests
-import six
 
 from monasca_events import exc
 from monasca_events import ksclient

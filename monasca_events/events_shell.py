@@ -173,11 +173,11 @@ class MonascaShell(object):
                             help="Do not contact keystone for a token. "
                                  "Defaults to env[OS_NO_CLIENT_AUTH].")
 
-        parser.add_argument('--monasca-api-url',
-                            default=utils.env('EVENTS_API_URL'),
-                            help='Defaults to env[EVENTS_API_URL]')
+        parser.add_argument('--monasca-events-url',
+                            default=utils.env('MONASCA_EVENTS_URL'),
+                            help='Defaults to env[MONASCA_EVENTS_URL]')
 
-        parser.add_argument('--monasca_api_url',
+        parser.add_argument('--monasca_events_url',
                             help=argparse.SUPPRESS)
 
         parser.add_argument('--monasca-api-version',
@@ -300,11 +300,11 @@ class MonascaShell(object):
                                    " env[OS_AUTH_TOKEN]")
 
         if args.os_no_client_auth:
-            if not args.monasca_api_url:
+            if not args.monasca_events_url:
                 raise exc.CommandError("If you specify --os-no-client-auth"
-                                       " you must specify a Monasca API URL"
-                                       " via either --monasca-api-url or"
-                                       " env[MONASCA_API_URL]")
+                                       " you must specify an Events API URL"
+                                       " via either --monasca-events-url or"
+                                       " env[EVENTS_API_URL]")
         else:
             if not args.os_auth_url:
                 raise exc.CommandError("You must provide an auth url via"
@@ -330,7 +330,7 @@ class MonascaShell(object):
             'region_name': args.os_region_name
         }
 
-        endpoint = args.monasca_api_url
+        endpoint = args.monasca_events_url
 
         if not args.os_no_client_auth:
             _ksclient = ksclient.KSClient(**kwargs)
