@@ -31,17 +31,17 @@ class EventsManager(monasca_manager.MonascaManager):
     def get(self, **kwargs):
         """Get specific event."""
         url_str = self.base_url + "/%s" % kwargs['event_id']
-        newheaders = self.get_headers()
+        new_headers = self.get_headers()
         resp, body = self.client.json_request('GET', url_str,
-                                              headers=newheaders)
+                                              headers=new_headers)
         return body
 
     def list(self, **kwargs):
         """Get a list of events."""
         url_str = self.base_url + '?%s' % urlutils.urlencode(kwargs, True)
-        newheaders = self.get_headers()
+        new_headers = self.get_headers()
         resp, body = self.client.json_request('GET', url_str,
-                                              headers=newheaders)
+                                              headers=new_headers)
         if body:
             return body['elements']
         else:
@@ -61,17 +61,17 @@ class TransformsManager(monasca_manager.MonascaManager):
     def get(self, **kwargs):
         """Get specific transform."""
         url_str = self.base_url + "/%s" % kwargs['transform_id']
-        newheaders = self.get_headers()
+        new_headers = self.get_headers()
         resp, body = self.client.json_request('GET', url_str,
-                                              headers=newheaders)
+                                              headers=new_headers)
         return body
 
     def list(self, **kwargs):
         """Get a list of transforms."""
         url_str = self.base_url + '?%s' % urlutils.urlencode(kwargs, True)
-        newheaders = self.get_headers()
+        new_headers = self.get_headers()
         resp, body = self.client.json_request('GET', url_str,
-                                              headers=newheaders)
+                                              headers=new_headers)
         if body:
             return body['elements']
         else:
@@ -80,27 +80,27 @@ class TransformsManager(monasca_manager.MonascaManager):
     def create(self, **kwargs):
         """Create a transform."""
         url_str = self.base_url
-        newheaders = self.get_headers()
+        new_headers = self.get_headers()
         payload = kwargs['transform']
         resp, body = self.client.json_request('POST',
                                               url_str,
                                               data=payload,
-                                              headers=newheaders)
+                                              headers=new_headers)
         return resp
 
     def delete(self, **kwargs):
         """Delete a specific transform."""
         url_str = self.base_url + "/%s" % kwargs['transform_id']
-        newheaders = self.get_headers()
+        new_headers = self.get_headers()
         resp, body = self.client.json_request('DELETE', url_str,
-                                              headers=newheaders)
+                                              headers=new_headers)
         return resp
 
 
 class StreamDefinitions(base.Resource):
 
     def __repr__(self):
-        return "<Transforms %s>" % self._info
+        return "<Stream-definitions %s>" % self._info
 
 
 class StreamDefinitionsManager(monasca_manager.MonascaManager):
@@ -110,17 +110,17 @@ class StreamDefinitionsManager(monasca_manager.MonascaManager):
     def get(self, **kwargs):
         """Get specific stream definition."""
         url_str = self.base_url + "/%s" % kwargs['definition_id']
-        newheaders = self.get_headers()
+        new_headers = self.get_headers()
         resp, body = self.client.json_request('GET', url_str,
-                                              headers=newheaders)
+                                              headers=new_headers)
         return body
 
     def list(self, **kwargs):
-        """Get a list of transforms."""
+        """Get a list of stream definitions."""
         url_str = self.base_url + '?%s' % urlutils.urlencode(kwargs, True)
-        newheaders = self.get_headers()
+        new_headers = self.get_headers()
         resp, body = self.client.json_request('GET', url_str,
-                                              headers=newheaders)
+                                              headers=new_headers)
         if body:
             return body['elements']
         else:
@@ -129,17 +129,27 @@ class StreamDefinitionsManager(monasca_manager.MonascaManager):
     def create(self, **kwargs):
         """Create a stream definition."""
         url_str = self.base_url
-        newheaders = self.get_headers()
+        new_headers = self.get_headers()
         payload = kwargs['definition']
         resp, body = self.client.json_request('POST', url_str,
                                               data=payload,
-                                              headers=newheaders)
+                                              headers=new_headers)
         return resp
 
     def delete(self, **kwargs):
-        """Delete a specific transform."""
+        """Delete a specific stream definitions."""
         url_str = self.base_url + "/%s" % kwargs['definition_id']
-        newheaders = self.get_headers()
+        new_headers = self.get_headers()
         resp, body = self.client.json_request('DELETE', url_str,
-                                              headers=newheaders)
+                                              headers=new_headers)
         return resp
+
+    def patch(self, **kwargs):
+        """Patch a specific stream definition."""
+        url_str = self.base_url + '/%s' % kwargs['definition_id']
+        new_headers = self.get_headers()
+        del kwargs['definition_id']
+        resp, body = self.client.json_request('PATCH', url_str,
+                                              data=kwargs,
+                                              headers=new_headers)
+        return body

@@ -254,3 +254,67 @@ def do_stream_definition_delete(mc, args):
         raise  exc.CommandError(
             'HTTPException code=%s message=%s' %
             (he.code, he.message))
+
+
+@utils.arg('id', metavar='<STREAM_DEFINITION_ID>',
+           help='The ID of the stream definition.')
+@utils.arg('--name', metavar='<STREAM_DEFINITION_NAME>',
+           help='Name of the stream definition.')
+@utils.arg('--description', metavar='<DESCRIPTION>',
+           help='Description of the stream.')
+@utils.arg('--expiration', metavar='<EXPIRATION>',
+           help='The expiration of the stream.', type=int)
+@utils.arg('--fire-criteria', metavar='<KEY1=VALUE1,KEY2=VALUE2...>',
+           help='kev value pair used to specify a fire criteria. '
+           'This can be specified multiple times, or once with parameters '
+           'separated by a comma. ',
+           action='append')
+@utils.arg('--fire-actions', metavar='<NOTIFICATION-ID>',
+           help='The notification method to use when the fire criteria is met for the stream. '
+           'This param may be specified multiple times.',
+           action='append')
+@utils.arg('--expire-actions', metavar='<NOTIFICATION-ID>',
+           help='The notification method to use when the expiration for the stream is met. '
+           'This param may be specified multiple times.',
+           action='append')
+def do_stream_definition_patch(mc, args):
+    """Patch a stream definition."""
+    fields = {'definition_id': args.id}
+    if args.name:
+        fields['name'] = args.name
+    if args.description:
+        fields['description'] = args.description
+    if args.expiration:
+        fields['expiration'] = args.expiration
+    if args.fire_actions:
+        fields['fire_actions'] = args.fire_actions
+    if args.expire_actions:
+        fields['expire_actions'] = args.expire_actions
+    if args.fire_criteria:
+        fields['fire_criteria'] = utils.format_parameters(args.fire_criteria)
+    try:
+        new_definition = mc.stream_definitions.patch(**fields)
+    except exc.HTTPException as he:
+        raise exc.CommandError(
+            'HTTPException code=%s message=%s' %
+            (he.code, he.message))
+    if args.json:
+        print(utils.json_formatter(new_definition))
+        return
+    cols = ['id', 'name', 'description', 'select', 'group_by',
+            'fire_criteria', 'expiration', 'fire_actions', 'expire_actions']
+    formatters = {
+        'id': lambda x: x['id'],
+        'name': lambda x: x['name'],
+        'description': lambda x: x['description'],
+        'select': lambda x: utils.format_dictlist(x['select']),
+        'group_by': lambda x: x['group_by'],
+        'fire_criteria': lambda x: utils.format_dict(x['fire_criteria']),
+        'expiration': lambda x: x['expiration'],
+        'fire_actions': lambda x: x['fire_actions'],
+        'expire_actions': lambda x: x['expire_actions'],
+    }
+    # append to list so print list works
+    new_definition_list = list()
+    new_definition_list.append(new_definition)
+    utils.print_list(new_definition_list, cols, formatters=formatters)
